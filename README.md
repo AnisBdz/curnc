@@ -1,7 +1,7 @@
 <<<<<<< HEAD
 # CURNC
 
-> CuRreNCy converter
+> Currency Converter
 > This project is part of a code challenge of Andela Learning Community.
 
 ## Build Setup
@@ -16,7 +16,3 @@ npm run dev
 # build for production with minification
 npm run build
 ```
-=======
-# curnc
-CURrNCy converter
->>>>>>> 2322afdbbb87609dfdd8dc7667f7f4e04c2d8e50
