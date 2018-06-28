@@ -16,4 +16,4 @@ npm run build
 ```
 
 ## Online Version
-[Try Now]: https://anisbdz.github.io/curnc/
+[Try Now](https://anisbdz.github.io/curnc/)
