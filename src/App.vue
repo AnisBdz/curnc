@@ -2,9 +2,27 @@
 	<div id="app">
 		
 		<link rel="stylesheet" href="../node_modules/bulma/css/bulma.css">
+		<link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.css">
 
-		<currency-box cur="DZD" :val="10"  />
-		<currency-box cur="USD" :val="0.1" />
+		<div class="content">
+
+			<img src="./assets/logo.png" width="400" alt="CURNC">
+
+			<div class="columns">
+				
+				<div class="column is-2">
+					<swap-button @swap="swap"/>
+				</div>
+
+				<div class="column">
+					<currency-box cur="USD" :val="0.1" :top="top"/>
+					<currency-box cur="DZD" :val="10"  :top="-top"/>
+				</div>
+				
+			</div>
+		</div>
+
+		<div class="copy">Created By Anis BOUCHEKHIMA</div>
 
 
 	</div>
@@ -15,17 +33,25 @@
 <script>
 
 	import CurrencyBox from './components/CurrencyBox.vue'
+	import SwapButton from './components/SwapButton.vue'
 
 	export default {
 		name: 'app',
 		data () {
 			return {
-				msg: 'Hello, World!'
+				top: 0
+			}
+		},
+
+		methods: {
+			swap() {
+				this.top = 61 - this.top;
 			}
 		},
 
 		components: {
-			'currency-box': CurrencyBox
+			'currency-box': CurrencyBox,
+			'swap-button': SwapButton
 		}
 	}
 
@@ -36,9 +62,10 @@
 		margin: 0;
 		padding: 0;
 		height: 100%;
+		overflow: hidden;
 	}
 
-	body::before {
+	body::after {
 		position: fixed;
 		top: 0;
 		left: 0;
@@ -53,10 +80,25 @@
 
 	#app {
 		filter: none;
-		top: 50%;
-		position: relative;
-		transform: translateY(-50%);
+		margin-top: 50px;
 		text-align: center;
+	}
+
+	#app .content {
+		display: inline-block;
+		margin: 10px auto;
+	}
+
+	#app .swap-button {
+		margin-top: 25px
+	}
+
+	#app .copy {
+		position: fixed;
+		right: 0;
+		bottom: 0;
+		padding: 5px 10px;
+		color: white;
 	}
 
 	@keyframes hued {
