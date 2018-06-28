@@ -1,7 +1,5 @@
-<<<<<<< HEAD
-# CURNC
+# CURNC | Currency Converter
 
-> Currency Converter
 > This project is part of a code challenge of Andela Learning Community.
 
 ## Build Setup
