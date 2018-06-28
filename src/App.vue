@@ -1,45 +1,69 @@
 <template>
-  <div id="app">
-    <h1>{{ msg }}</h1>
-  </div>
+	<div id="app">
+		
+		<link rel="stylesheet" href="../node_modules/bulma/css/bulma.css">
+
+		<currency-box cur="DZD" :val="10"  />
+		<currency-box cur="USD" :val="0.1" />
+
+
+	</div>
 </template>
 
+
+
 <script>
-export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Hello, World!'
-    }
-  }
-}
+
+	import CurrencyBox from './components/CurrencyBox.vue'
+
+	export default {
+		name: 'app',
+		data () {
+			return {
+				msg: 'Hello, World!'
+			}
+		},
+
+		components: {
+			'currency-box': CurrencyBox
+		}
+	}
+
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+	html, body {
+		margin: 0;
+		padding: 0;
+		height: 100%;
+	}
 
-h1, h2 {
-  font-weight: normal;
-}
+	body::before {
+		position: fixed;
+		top: 0;
+		left: 0;
+		content: '';
+		z-index: -1;
+		height: 100%;
+		width: 100%;
+		display: block;	
+		background: #29b6f6;
+		animation: hued 30s linear 0s infinite alternate;
+	}
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
+	#app {
+		filter: none;
+		top: 50%;
+		position: relative;
+		transform: translateY(-50%);
+		text-align: center;
+	}
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
+	@keyframes hued {
+		0% { filter: hue-rotate(-50deg);  }
+		25% { filter: hue-rotate(0deg); }
+		50% { filter: hue-rotate(50deg);  }
+		75% { filter: hue-rotate(0deg);  }
+		100% { filter: hue-rotate(-50deg);  }
+	}
 </style>
