@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # CURNC
 
 > CuRreNCy converter
@@ -15,3 +16,7 @@ npm run dev
 # build for production with minification
 npm run build
 ```
+=======
+# curnc
+CURrNCy converter
+>>>>>>> 2322afdbbb87609dfdd8dc7667f7f4e04c2d8e50
