@@ -1,6 +1,5 @@
 <template>
 	<div id="app">
-
 		<div class="content">
 
 			<img src="./assets/logo.png" width="400" alt="CURNC">
