@@ -4,16 +4,13 @@
 		<div class="field has-addons">
 			
 			<p class="control">
-				<input type="text" placeholder="0.00" v-model="val" class="input is-medium">			
+				<input type="text" placeholder="0.00" :disabled="disabled" v-model="value.amount" :class="{input:true, 'is-medium': true, 'error': value.error}" @input="modelize">			
 			</p>
 
 			<p class="control">
 				<span class="select is-medium">
-					<select v-model="cur">
-						<option>DZD</option>
-						<option>USD</option>
-						<option>EUR</option>
-						<option>TND</option>
+					<select v-model="value.currency" @change="modelize">
+						<option v-for="currency in currencies">{{ currency }}</option>
 					</select>
 				</span>
 			</p>
@@ -28,9 +25,21 @@
 	export default {
 		name: 'currency-box',
 		props: {
-			cur: String,
-			val: Number,
-			top: Number
+			value: Object,
+			top: Number,
+			disabled: Boolean
+		},
+
+		methods: {
+			modelize(event) {
+				this.$emit('input', this.value)
+			}
+		},
+
+		computed: {
+			currencies() {
+				return this.$store.state.currencies
+			}
 		}
 	}
 
@@ -49,6 +58,15 @@
 
 	.currency-box .input:hover {
 		background: rgba(255, 255, 255, 0.1);
+	}
+
+	.currency-box .input:disabled {
+		background: transparent;
+		color: white;
+	}
+
+	.currency-box .input.error:not(:disabled) {
+		background: #e57373;
 	}
 
 	.currency-box .input, .currency-box .select select {
