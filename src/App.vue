@@ -1,8 +1,5 @@
 <template>
 	<div id="app">
-		
-		<link rel="stylesheet" href="../node_modules/bulma/css/bulma.css">
-		<link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.css">
 
 		<div class="content">
 
