@@ -76,7 +76,7 @@
 		methods: {
 			swap() {
 				this.swaped = !this.swaped
-				this.update()
+				if (this.values[1 - this.index].error) this.update()
 			},
 
 			update() {
