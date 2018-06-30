@@ -32,6 +32,7 @@
 	import SwapButton from './components/SwapButton.vue'
 	import Vue from 'vue'
 	import VueX from 'vuex'
+	import db from './db'
 
 	// use vuex state managment
 	Vue.use(VueX)
@@ -45,7 +46,7 @@
 		mutations: {
 			// register currencies when fetched either from the api or the cache
 			registerCurrencies(state, currencies) {
-				state.currencies = currencies
+				state.currencies = currencies.sort()
 			}
 		}
 	})
@@ -96,20 +97,39 @@
 				// query
 				const query = [from,to].join('_')
 
-				// get currency conversion
-				return fetch('https://free.currencyconverterapi.com/api/v5/convert?q=' + query )
+				// get rate from database
+				return db.getRate(from, to).then(rate => {
+					// if rate exists
+					if (rate) {
+						// check if the rate is new
+						if (((new Date) - rate.date) < 360 * 1000) return rate.rate
+					}
+
+					// fetch from network if it doesn't exist in db
+					return fetch('https://free.currencyconverterapi.com/api/v5/convert?q=' + query )
+					
+					// get data as json
+					.then(res => res.json())
 				
-				// get data as json
-				.then(res => res.json())
-			
-				// get value
-				.then(json => json.results[query].val)
+					// get value
+					.then(json => json.results[query].val)
 
-				// calculate conversion
-				.then(rate => amount * rate)
+					// save to database
+					.then(rate => {
+						db.setRate(from, to, rate)
+						return rate
+					})
 
-				// handle exceptions
-				.catch(e => console.log('Could not get converstion rate for ' + query))
+					// handle exceptions
+					.catch(e => {
+						console.log('Could not get converstion rate for ' + query)
+						console.log('Fall back to database')
+						return rate ? rate.rate : null
+					})
+				})
+
+				.then(rate => rate ? amount * rate : 0)
+
 			},
 
 			resetErrors() {
@@ -123,17 +143,49 @@
 		},
 
 		created() {
-			// get currencies
-			fetch('https://free.currencyconverterapi.com/api/v5/currencies')
+			// register service worker
+			if ('serviceWorker' in navigator) {
+				navigator.serviceWorker.register('sw.js')
+			}
 
-			// as json format
-			.then(res => res.json())
+			// get currencies (if there are any)
+			db.getCurrencies().then(currencies => {
 
-			// register currencies
-			.then(json => this.$store.commit('registerCurrencies', Object.keys(json.results)))
-			
-			// handle unexpected exceptions
-			.catch(e => console.log('Could not fetch currencies from api'))
+				// return currencies
+				if (currencies && currencies.length) return currencies
+
+				// of fetch new ones
+				else return fetch('https://free.currencyconverterapi.com/api/v5/currencies')
+
+				// as json format
+				.then(res => res.json())
+
+				// register currencies
+				.then(json => {
+
+					// format the data we recieved
+					let data = []
+
+					for (let currency in json.results) {
+						data.push({ currency, ...json.results[currency] })
+					}
+
+					data = data.sort((a, b) => a.currency < b.currency ? -1 : 1)
+
+					// save to db
+					return db.setCurrencies(data).then(() => data)
+				})
+				
+				// handle unexpected exceptions
+				.catch(e => console.log('Could not fetch currencies from api'))
+			})
+
+			// commit to application's store
+			.then(currencies => {
+				// commit to application store
+				this.$store.commit('registerCurrencies', currencies)
+			})
+
 		}
 	}
 
@@ -156,7 +208,7 @@
 		height: 100%;
 		width: 100%;
 		display: block;	
-		background: #29b6f6;
+		background: linear-gradient(-125deg, #29b6f6, #5bcbff);
 		animation: hued 30s linear 0s infinite alternate;
 	}
 
