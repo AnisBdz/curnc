@@ -13,6 +13,9 @@ npm run dev
 
 # build for production with minification
 npm run build
+
+# rebuild service worker
+npm run service_worker_build
 ```
 
 ## Online Version
