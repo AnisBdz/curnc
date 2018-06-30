@@ -1,6 +1,7 @@
 <template>
 
 	<div class="currency-box" :style="{top: top + 'px'}">
+		<div class="text">{{ name }}</div>
 		<div class="field has-addons">
 			
 			<p class="control">
@@ -39,6 +40,12 @@
 		computed: {
 			currencies() {
 				return this.$store.state.currencies.map(line => line.currency)
+			},
+
+			name() {
+				let currency = this.$store.state.currencies.filter(line => line.currency == this.value.currency)[0]
+				// return ''
+				return currency ? currency.currencyName : ''
 			}
 		}
 	}
@@ -51,6 +58,12 @@
 		position: relative;
 		display: inline-block;
 		transition: top 0.3s ease-out 0s;
+	}
+
+	.currency-box .text {
+		color: white;
+		min-height: 28px;
+		text-align: left;
 	}
 
 	.currency-box .input {

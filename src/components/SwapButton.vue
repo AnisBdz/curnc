@@ -21,11 +21,12 @@
 		height: 50px;
 		width:  50px;
 		background: rgba(255, 255, 255, .4);
-		border: 0px solid transparent;
+		border: 2px solid rgba(255, 255, 255, .8);
 		color: white;
 		font-size: 25px;
 		transform: rotate(90deg);
-		transition: background 0.4s ease-out 0s;
+		padding: 0px;
+		transition: all 0.4s ease-in 0s;
 	}
 
 
@@ -36,7 +37,7 @@
 
 	.swap-button .button:focus:not(:active) {
 		outline: none;
-		border: 0px solid transparent;
+		border: 2px solid rgba(255, 255, 255, .8);
 		box-shadow: none;
 		color: white;
 	}

@@ -1,9 +1,9 @@
-const cacheName = 'curnc-static-v6'
+const cacheName = 'curnc-static-v7'
 
 self.addEventListener('install', e => {
  
 	e.waitUntil(caches.open(cacheName).then(cache => {
-		// cache page
+		// cache page 
 		cache.addAll([
 			'./',
 			'index.html', 

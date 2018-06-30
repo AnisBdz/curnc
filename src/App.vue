@@ -2,7 +2,7 @@
 	<div id="app">
 		<div class="content">
 
-			<img src="./assets/logo.png" width="400" alt="CURNC">
+			<img src="./assets/logo.png" id="logo" width="400" alt="CURNC">
 
 			<div class="columns">
 				
@@ -67,7 +67,7 @@
 
 		computed: {
 			top() {
-				return this.swaped ? 60 : 0
+				return this.swaped ? 88 : 0
 			},
 
 			index() {
@@ -215,7 +215,6 @@
 
 	#app {
 		filter: none;
-		margin-top: 50px;
 		text-align: center;
 	}
 
@@ -225,7 +224,7 @@
 	}
 
 	#app .swap-button {
-		margin-top: 25px
+		margin-top: 65px
 	}
 
 	#app .copy {
@@ -255,6 +254,16 @@
 		.boxes-container {
 			text-align: center;
 			max-width: 100%;
+		}
+
+		#logo {
+			position: relative;
+			margin-top: -40px;
+		}
+
+		.columns {
+			margin-top: -110px;
+			padding: 10px;
 		}
 	}
 
