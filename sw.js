@@ -5,7 +5,7 @@ self.addEventListener('install', e => {
 	e.waitUntil(caches.open(cacheName).then(cache => {
 		// cache page
 		cache.addAll([
-			'/',
+			'./',
 			'index.html', 
 			'dist/build.js',
 			'dist/logo.png',
