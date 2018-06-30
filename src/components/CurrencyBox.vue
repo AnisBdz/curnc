@@ -49,6 +49,7 @@
 <style>
 	.currency-box {
 		position: relative;
+		display: inline-block;
 		transition: top 0.3s ease-out 0s;
 	}
 

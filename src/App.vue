@@ -6,12 +6,13 @@
 
 			<div class="columns">
 				
-				<div class="column is-2">
+				<div class="column swap-container">
 					<swap-button @swap="swap"/>
 				</div>
 
-				<div class="column">
+				<div class="column boxes-container">
 					<currency-box v-model="values[0]" :top="top"  :disabled="index == 1" @input="update"/>
+					<div class="serperator"></div>
 					<currency-box v-model="values[1]" :top="-top" :disabled="index == 0" @input="update"/>
 				</div>
 				
@@ -235,6 +236,28 @@
 		color: white;
 	}
 
+	.swap-container {
+		text-align: right;
+		max-width: 100px;
+	}
+
+	.boxes-container {
+		text-align: left;
+		max-width: 290px;
+	}
+
+	@media(max-width: 768px) {
+		.swap-container {
+			text-align: center;
+			max-width: 100%;
+		}
+
+		.boxes-container {
+			text-align: center;
+			max-width: 100%;
+		}
+	}
+
 	@keyframes hued {
 		0% { filter: hue-rotate(-50deg);  }
 		25% { filter: hue-rotate(0deg); }
@@ -242,4 +265,5 @@
 		75% { filter: hue-rotate(0deg);  }
 		100% { filter: hue-rotate(-50deg);  }
 	}
+
 </style>

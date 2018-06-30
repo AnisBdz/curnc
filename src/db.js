@@ -2,8 +2,16 @@ import idb from 'idb'
 
 // Create a keyval store for rates
 const dbPromise = idb.open('curnc-store', 1, udb => {
-	udb.createObjectStore('rates')
-	udb.createObjectStore('currencies', { keyPath: 'currency' })
+	let ratesStore
+
+	switch(udb.oldVersion) {
+		case 0:
+			ratesStore = udb.createObjectStore('rates')
+		case 1:
+			udb.createObjectStore('currencies', { keyPath: 'currency' })
+		case 2:
+			ratesStore.createIndex('by-date', 'date')
+	}
 })
 
 export default {
@@ -24,8 +32,21 @@ export default {
 
 			tx.objectStore('rates').put(row, [from, to].join('_'));
 			
-			return tx.complete;
-		});
+			// clean database
+			return tx.complete.then(() => this.cleanRates(db))
+		})
+	},
+
+	cleanRates(db) {
+		return db.transaction('rates', 'readwrite').objectStore('rates').index('by-date').openCursor(null, 'prev').then(cursor => {
+			return cursor.advance(50)
+		})
+
+		.then(function deleteRest(cursor) {
+			if (!cursor) return
+			cursor.delete()
+			return cursor.continue().then(deleteRest)
+		})
 	},
 
 	deleteRate(from, to, rate) {

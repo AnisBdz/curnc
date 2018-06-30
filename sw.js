@@ -1,4 +1,4 @@
-const cacheName = 'curnc-static-v5'
+const cacheName = 'curnc-static-v6'
 
 self.addEventListener('install', e => {
  
